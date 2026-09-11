@@ -1,0 +1,751 @@
+:root {
+  --bg: #fff8f1;
+  --panel: #ffffff;
+  --line: #eaded2;
+  --text: #30251f;
+  --muted: #806f64;
+  --primary: #f97316;
+  --primary-soft: #fff1e7;
+  --secondary: #fffaf7;
+  --desk: #fffaf4;
+  --desk-border: #e6d8cb;
+  --student-name-size: 1rem;
+  --student-name-size-print: 0.98rem;
+  --student-name-line-height: 1.08;
+  --student-name-padding: 7px;
+  --shadow: 0 12px 30px rgba(116, 77, 48, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Avenir Next", Avenir, "Trebuchet MS", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  padding: 20px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.app-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.controls-panel {
+  padding: 18px;
+}
+
+.controls-panel h1 {
+  margin: 0 0 16px;
+  font-size: 1.55rem;
+  letter-spacing: -0.02em;
+}
+
+.control-group {
+  border: 1px solid var(--line);
+  background: #fbfcff;
+  border-radius: 11px;
+  padding: 13px;
+  margin-bottom: 13px;
+}
+
+.control-group h2 {
+  margin-top: 0;
+  margin-bottom: 11px;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.field-row.compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.77rem;
+  color: var(--muted);
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 36px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 0.84rem;
+  color: var(--text);
+}
+
+.checkbox-row {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.checkbox-row input {
+  width: auto;
+  min-height: auto;
+  margin: 0;
+}
+
+.classroom-edit-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.file-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.setup-hint {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.primary-btn,
+.secondary-btn,
+.ghost-btn {
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.primary-btn {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(249, 115, 22, 0.22);
+}
+
+.secondary-btn {
+  background: var(--secondary);
+  color: var(--text);
+}
+
+.ghost-btn {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.ghost-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: rgba(249, 115, 22, 0.22);
+}
+
+.button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.student-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 190px;
+  overflow: auto;
+}
+
+.student-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 0.78rem;
+}
+
+.student-name {
+  font-weight: 600;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #b42318;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.document-panel {
+  padding: 15px;
+}
+
+.document-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.document-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.view-controls {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.classroom-document {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 18px;
+  min-height: 620px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.doc-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.doc-subtitle {
+  margin: 0 0 4px;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.doc-topbar h3 {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.45rem);
+}
+
+.layout-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.layout-row {
+  display: grid;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.layout-row[data-columns="1"] {
+  grid-template-columns: 1fr;
+}
+
+.layout-row[data-columns="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="3"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="4"] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="5"] {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="6"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="7"] {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="8"] {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="9"] {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.layout-row[data-columns="10"] {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.floor-cell {
+  min-height: 110px;
+  border: 1px dashed transparent;
+  border-radius: 16px;
+}
+
+.layout-grid:has(.floor-cell) .floor-cell {
+  background: rgba(111, 121, 134, 0.035);
+}
+
+.layout-grid:has(.floor-cell) .floor-cell:hover {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  cursor: pointer;
+}
+
+.desk {
+  position: relative;
+  background: #fffdfb;
+  border: 1px solid #e6d9cb;
+  border-radius: 16px;
+  min-height: 104px;
+  padding: 16px 9px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 800;
+  color: var(--text);
+  user-select: none;
+  cursor: grab;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.desk:active {
+  cursor: grabbing;
+}
+
+.desk.teacher-rotated {
+  transform: rotate(180deg);
+}
+
+.student-info {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  min-height: 100%;
+  padding: var(--student-name-padding);
+  overflow: hidden;
+}
+
+.student-facing {
+  transform: rotate(180deg);
+}
+
+.desk.empty {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(111, 121, 134, 0.08),
+    rgba(111, 121, 134, 0.08) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border-style: dashed;
+  color: rgba(45, 27, 18, 0.45);
+}
+
+.desk span {
+  display: block;
+  line-height: 1.1;
+}
+
+.desk-name,
+.desk-surname {
+  max-width: 100%;
+  font-size: var(--student-name-size);
+  line-height: var(--student-name-line-height);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: scaleX(var(--student-text-scale, 1));
+  transform-origin: center;
+}
+
+.desk-number {
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--muted);
+  opacity: 0.9;
+}
+
+.teacher-desk {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 104px;
+  padding: 10px;
+  border-radius: 16px;
+  border: 2px solid var(--desk-border);
+  background: linear-gradient(180deg, #fff4ea 0%, #ffe7cf 100%);
+  color: var(--text);
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+  grid-column: span 2;
+}
+
+.teacher-desk span {
+  display: block;
+  text-align: center;
+}
+
+.ghost-btn.active,
+.secondary-btn.active {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.layout-grid.manual-mode .desk {
+  cursor: grab;
+}
+
+.layout-grid.manual-mode .desk:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-soft);
+}
+
+.pdf-preview-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.pdf-preview-modal.hidden {
+  display: none;
+}
+
+.pdf-preview-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(29, 27, 22, 0.45);
+}
+
+.pdf-preview-panel {
+  position: relative;
+  width: min(1100px, 92vw);
+  max-height: 90vh;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  overflow: hidden;
+}
+
+.pdf-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pdf-preview-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.pdf-preview-sheet {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.pdf-preview-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .controls-panel h1,
+  .controls-panel > .control-group:first-of-type {
+    grid-column: 1 / -1;
+  }
+
+  .control-group {
+    margin-bottom: 0;
+  }
+
+  .document-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .view-controls {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 10px;
+  }
+
+  .app-shell {
+    gap: 10px;
+  }
+
+  .panel,
+  .classroom-document {
+    border-radius: 11px;
+  }
+
+  .controls-panel {
+    display: block;
+    padding: 12px;
+  }
+
+  .controls-panel h1 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  .control-group {
+    padding: 11px;
+    margin-bottom: 10px;
+  }
+
+  .document-panel {
+    padding: 10px;
+  }
+
+  .document-header,
+  .doc-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .document-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .view-controls {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .view-controls button {
+    width: 100%;
+  }
+
+  .classroom-document {
+    padding: 12px;
+    overflow-x: auto;
+  }
+
+  .layout-grid {
+    min-width: 100%;
+    gap: 8px;
+  }
+
+  .layout-row {
+    gap: 7px;
+  }
+
+  .desk,
+  .floor-cell,
+  .teacher-desk {
+    min-height: 88px;
+    border-radius: 10px;
+  }
+
+  .desk {
+    padding: 14px 6px 8px;
+  }
+
+  .student-info {
+    padding: 5px;
+  }
+
+  .desk-name,
+  .desk-surname {
+    font-size: 0.82rem;
+  }
+
+  .desk-number {
+    top: 5px;
+    left: 6px;
+    font-size: 0.55rem;
+  }
+
+  .pdf-preview-modal {
+    padding: 10px;
+  }
+
+  .pdf-preview-panel {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .pdf-preview-sheet {
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  body {
+    background: #fff;
+    padding: 0;
+  }
+
+  .no-print,
+  .controls-panel {
+    display: none !important;
+  }
+
+  .app-shell {
+    display: block;
+    max-width: none;
+  }
+
+  .document-panel {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .classroom-document {
+    min-height: 0;
+    border: none;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: none;
+  }
+
+  .layout-grid {
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .layout-row {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .desk {
+    min-height: 100px;
+    break-inside: avoid;
+    padding-top: 16px;
+  }
+
+  .desk.teacher-rotated {
+    transform: rotate(180deg);
+  }
+
+  .desk-name,
+  .desk-surname {
+    font-size: var(--student-name-size-print);
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "className": "3A",
+  "rows": 5,
+  "cols": 4,
+  "students": [
+    { "name": "Joannes", "surname": "Demez" },
+    { "name": "Richard", "surname": "Ilias" },
+    { "name": "Riccardo", "surname": "Valorzi" },
+    { "name": "Edoardo", "surname": "Giretti" },
+    { "name": "Gabriele", "surname": "Crespi" },
+    { "name": "Jacopo", "surname": "Bagamoro" },
+    { "name": "Agnese", "surname": "Frigato" },
+    { "name": "Martina", "surname": "Pavanello" },
+    { "name": "Gaia", "surname": "Falcone" },
+    { "name": "Antonio", "surname": "Pirri" },
+    { "name": "Alessandro", "surname": "D'Agostino" },
+    { "name": "Leonardo", "surname": "Macconi" },
+    { "name": "Valentina", "surname": "Mejia" }
+  ]
+}

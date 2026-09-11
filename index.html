@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disposizione banchi</title>
+    <link rel="stylesheet" href="styles.css?v=20260911-2" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="panel controls-panel">
+        <h1>Disposizione banchi</h1>
+
+        <section class="control-group">
+          <h2>Studenti</h2>
+          <div class="field-row">
+            <label>
+              Nome
+              <input id="studentName" type="text" placeholder="Mario" />
+            </label>
+            <label>
+              Cognome
+              <input id="studentSurname" type="text" placeholder="Rossi" />
+            </label>
+          </div>
+          <button id="addStudentBtn" class="primary-btn">Aggiungi studente</button>
+          <div class="file-controls">
+            <button id="importStudentsBtn" class="ghost-btn" type="button">Carica file classe</button>
+            <button id="exportStudentsBtn" class="ghost-btn" type="button">Esporta file classe</button>
+            <input id="studentFileInput" type="file" accept=".json,application/json" hidden />
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h2>Configurazione aula</h2>
+          <div class="field-row compact">
+            <label>
+              Righe
+              <input id="rowsInput" type="number" min="1" max="15" value="5" />
+            </label>
+            <label>
+              Colonne
+              <input id="colsInput" type="number" min="1" max="10" value="4" />
+            </label>
+          </div>
+          <label>
+            Nome classe
+            <input id="className" type="text" value="3A" />
+          </label>
+          <label class="checkbox-row">
+            <input id="showDeskNumbers" type="checkbox" checked />
+            Mostra numeri banchi
+          </label>
+          <div class="classroom-edit-controls">
+            <button id="editDesksBtn" class="secondary-btn" type="button">Modifica banchi</button>
+            <button id="placeTeacherDeskBtn" class="ghost-btn" type="button">Posiziona cattedra</button>
+          </div>
+          <p id="classroomSetupHint" class="setup-hint">Imposta righe e colonne, poi aggiungi i banchi cliccando sulla griglia.</p>
+        </section>
+
+        <section class="control-group">
+          <h2>Generazione</h2>
+          <label>
+            Mostra in stampa
+            <select id="displayMode">
+              <option value="both">Nomi e cognomi</option>
+              <option value="name">Solo nomi</option>
+              <option value="surname">Solo cognomi</option>
+            </select>
+          </label>
+          <div class="button-stack">
+            <button id="generateBtn" class="primary-btn">Genera disposizione casuale</button>
+            <button id="manualModeBtn" class="secondary-btn" type="button">Sistemazione manuale</button>
+            <button id="resetBtn" class="secondary-btn">Resetta aula</button>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h2>Lista studenti</h2>
+          <ul id="studentList" class="student-list"></ul>
+        </section>
+      </aside>
+
+      <main class="panel document-panel">
+        <div class="document-header no-print">
+          <div>
+            <p class="eyebrow">Anteprima</p>
+            <h2>Disposizione banchi</h2>
+          </div>
+          <div class="view-controls">
+            <button id="teacherViewBtn" class="ghost-btn active">Vista cattedra</button>
+            <button id="studentViewBtn" class="ghost-btn">Vista studenti</button>
+            <button id="previewPdfBtn" class="secondary-btn">Anteprima PDF</button>
+            <button id="printTeacherBtn" class="primary-btn">Stampa vista cattedra</button>
+            <button id="printStudentBtn" class="secondary-btn">Stampa vista studenti</button>
+          </div>
+        </div>
+
+        <div id="classroomDocument" class="classroom-document" aria-live="polite">
+          <header class="doc-topbar">
+            <div>
+              <p class="doc-subtitle">Classe</p>
+              <h3 id="classNamePrint">3A</h3>
+            </div>
+            <div class="doc-date-wrap">
+              <p class="doc-subtitle">Data generazione</p>
+              <h3 id="generationDate">-</h3>
+            </div>
+          </header>
+
+          <div id="layout" class="layout-grid" role="grid" aria-label="Disposizione banchi"></div>
+        </div>
+      </main>
+    </div>
+
+    <div id="pdfPreviewModal" class="pdf-preview-modal hidden" aria-hidden="true">
+      <div class="pdf-preview-backdrop" data-close-preview="true"></div>
+      <div class="pdf-preview-panel" role="dialog" aria-modal="true" aria-label="Anteprima PDF">
+        <div class="pdf-preview-header">
+          <h3>Anteprima stampa</h3>
+          <button id="closePreviewBtn" class="ghost-btn">Chiudi</button>
+        </div>
+        <div id="pdfPreviewSheet" class="pdf-preview-sheet"></div>
+        <div class="pdf-preview-actions">
+          <button id="confirmPrintBtn" class="primary-btn">Stampa</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js?v=20260911-2"></script>
+  </body>
+</html>
