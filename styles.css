@@ -281,6 +281,18 @@ select {
   border-bottom: 1px solid var(--line);
 }
 
+.doc-topbar > div {
+  flex: 1 1 0;
+}
+
+.doc-class-wrap {
+  text-align: center;
+}
+
+.doc-mirroring-wrap {
+  text-align: right;
+}
+
 .doc-subtitle {
   margin: 0 0 4px;
   font-size: 0.64rem;
@@ -725,18 +737,29 @@ select {
     min-height: 0;
     border: none;
     padding: 0;
-    width: 100%;
-    max-width: 100%;
+    width: calc(100% - 4mm);
+    max-width: calc(100% - 4mm);
     margin: 0 auto;
     box-shadow: none;
     overflow: visible;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
   .doc-topbar {
-    margin-bottom: 10px;
+    flex: 0 0 auto;
+    margin-bottom: 7px;
+    padding-bottom: 7px;
+  }
+
+  .doc-topbar > div {
+    min-width: 0;
   }
 
   .layout-grid {
+    flex: 1 1 auto;
+    min-height: 0;
     gap: 7px;
     width: 100%;
     max-width: 100%;
@@ -745,14 +768,23 @@ select {
   }
 
   .layout-row {
+    flex: 1 1 0;
+    min-height: 0;
     width: 100%;
     max-width: 100%;
   }
 
   .desk {
-    min-height: 88px;
+    min-height: 0;
+    height: 100%;
     break-inside: avoid;
     padding-top: 13px;
+  }
+
+  .floor-cell,
+  .teacher-desk {
+    min-height: 0;
+    height: 100%;
   }
 
   .classroom-document.teacher-view .doc-topbar {

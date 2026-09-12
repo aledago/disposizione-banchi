@@ -11,6 +11,7 @@ const state = {
   viewMode: 'teacher',
   showDeskNumbers: true,
   className: '3A',
+  mirroringCode: '',
   generatedAt: new Date(),
   teacherDesk: {
     row: -1,
@@ -28,6 +29,7 @@ const els = {
   rowsInput: document.getElementById('rowsInput'),
   colsInput: document.getElementById('colsInput'),
   className: document.getElementById('className'),
+  mirroringCode: document.getElementById('mirroringCode'),
   showDeskNumbers: document.getElementById('showDeskNumbers'),
   displayMode: document.getElementById('displayMode'),
   generateBtn: document.getElementById('generateBtn'),
@@ -42,6 +44,7 @@ const els = {
   printStudentBtn: document.getElementById('printStudentBtn'),
   classNamePrint: document.getElementById('classNamePrint'),
   generationDate: document.getElementById('generationDate'),
+  mirroringCodePrint: document.getElementById('mirroringCodePrint'),
   editDesksBtn: document.getElementById('editDesksBtn'),
   placeTeacherDeskBtn: document.getElementById('placeTeacherDeskBtn'),
   classroomSetupHint: document.getElementById('classroomSetupHint'),
@@ -56,6 +59,7 @@ function saveState() {
     rows: state.rows,
     cols: state.cols,
     className: state.className,
+    mirroringCode: state.mirroringCode,
     showDeskNumbers: state.showDeskNumbers,
     displayMode: state.displayMode,
     deskCells: state.deskCells,
@@ -89,6 +93,7 @@ function applyStudentData(data) {
   state.rows = Math.max(1, Number(data.rows) || state.rows);
   state.cols = Math.max(1, Number(data.cols) || state.cols);
   state.className = normalizeName(String(data.className || state.className)) || '3A';
+  state.mirroringCode = normalizeName(String(data.mirroringCode || ''));
   state.showDeskNumbers = data.showDeskNumbers !== false;
   state.displayMode = ['both', 'name', 'surname'].includes(data.displayMode)
     ? data.displayMode
@@ -102,6 +107,7 @@ function applyStudentData(data) {
   els.rowsInput.value = state.rows;
   els.colsInput.value = state.cols;
   els.className.value = state.className;
+  els.mirroringCode.value = state.mirroringCode;
   els.showDeskNumbers.checked = state.showDeskNumbers;
   els.displayMode.value = state.displayMode;
   ensureDeskMap();
@@ -115,6 +121,7 @@ function exportClassFile() {
   const fileContent = JSON.stringify({
     schemaVersion: 1,
     className: state.className,
+    mirroringCode: state.mirroringCode,
     rows: state.rows,
     cols: state.cols,
     showDeskNumbers: state.showDeskNumbers,
@@ -163,6 +170,7 @@ function loadSavedState() {
       rows: Number(saved.rows) || state.rows,
       cols: Number(saved.cols) || state.cols,
       className: saved.className || state.className,
+      mirroringCode: saved.mirroringCode || '',
       showDeskNumbers: saved.showDeskNumbers !== false,
       displayMode: saved.displayMode || state.displayMode,
       deskCells: Array.isArray(saved.deskCells) ? saved.deskCells : [],
@@ -173,6 +181,7 @@ function loadSavedState() {
     els.rowsInput.value = state.rows;
     els.colsInput.value = state.cols;
     els.className.value = state.className;
+    els.mirroringCode.value = state.mirroringCode;
     els.showDeskNumbers.checked = state.showDeskNumbers;
     els.displayMode.value = state.displayMode;
     return true;
@@ -284,12 +293,14 @@ function syncSettings() {
   state.rows = Math.max(1, Number(els.rowsInput.value) || 1);
   state.cols = Math.max(1, Number(els.colsInput.value) || 1);
   state.className = normalizeName(els.className.value) || '3A';
+  state.mirroringCode = normalizeName(els.mirroringCode.value);
   state.showDeskNumbers = els.showDeskNumbers.checked;
   state.displayMode = els.displayMode.value;
   ensureDeskMap();
 
   els.classNamePrint.textContent = state.className;
   els.generationDate.textContent = formatGeneratedDate(state.generatedAt);
+  els.mirroringCodePrint.textContent = state.mirroringCode || '-';
 }
 
 function ensureDeskMap() {
@@ -390,8 +401,8 @@ function dataToSeatArray() {
 }
 
 function handleCellClick(rowIndex, colIndex) {
-  const placingTeacherDesk = state.placingTeacherDesk || els.placeTeacherDeskBtn.classList.contains('active');
-  const editingDesks = state.editMode || els.editDesksBtn.classList.contains('active');
+  const placingTeacherDesk = state.placingTeacherDesk;
+  const editingDesks = state.editMode;
 
   if (placingTeacherDesk) {
     placeTeacherDesk(rowIndex, colIndex);
@@ -662,13 +673,17 @@ function renderPreviewSheet(viewMode = state.viewMode) {
   const previewHeader = document.createElement('header');
   previewHeader.className = 'doc-topbar';
   previewHeader.innerHTML = `
-    <div>
-      <p class="doc-subtitle">Classe</p>
-      <h3>${state.className}</h3>
-    </div>
     <div class="doc-date-wrap">
       <p class="doc-subtitle">Data generazione</p>
       <h3>${formatGeneratedDate(state.generatedAt)}</h3>
+    </div>
+    <div class="doc-class-wrap">
+      <p class="doc-subtitle">Classe</p>
+      <h3>${state.className}</h3>
+    </div>
+    <div class="doc-mirroring-wrap">
+      <p class="doc-subtitle">Duplicazione schermo</p>
+      <h3>${state.mirroringCode || '-'}</h3>
     </div>
   `;
   previewTarget.appendChild(previewHeader);
@@ -840,6 +855,10 @@ els.colsInput.addEventListener('input', () => {
   }
 });
 els.className.addEventListener('input', () => {
+  syncSettings();
+  saveState();
+});
+els.mirroringCode.addEventListener('input', () => {
   syncSettings();
   saveState();
 });

@@ -47,6 +47,10 @@
             Nome classe
             <input id="className" type="text" value="3A" />
           </label>
+          <label>
+            Codice duplicazione schermo
+            <input id="mirroringCode" type="text" placeholder="Codice AirPlay" />
+          </label>
           <label class="checkbox-row">
             <input id="showDeskNumbers" type="checkbox" checked />
             Mostra numeri banchi
@@ -98,13 +102,17 @@
 
         <div id="classroomDocument" class="classroom-document" aria-live="polite">
           <header class="doc-topbar">
-            <div>
-              <p class="doc-subtitle">Classe</p>
-              <h3 id="classNamePrint">3A</h3>
-            </div>
             <div class="doc-date-wrap">
               <p class="doc-subtitle">Data generazione</p>
               <h3 id="generationDate">-</h3>
+            </div>
+            <div class="doc-class-wrap">
+              <p class="doc-subtitle">Classe</p>
+              <h3 id="classNamePrint">3A</h3>
+            </div>
+            <div class="doc-mirroring-wrap">
+              <p class="doc-subtitle">Duplicazione schermo</p>
+              <h3 id="mirroringCodePrint">-</h3>
             </div>
           </header>
 
