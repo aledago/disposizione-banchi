@@ -35,6 +35,7 @@ const els = {
   resetBtn: document.getElementById('resetBtn'),
   studentList: document.getElementById('studentList'),
   layout: document.getElementById('layout'),
+  classroomDocument: document.getElementById('classroomDocument'),
   teacherViewBtn: document.getElementById('teacherViewBtn'),
   studentViewBtn: document.getElementById('studentViewBtn'),
   printTeacherBtn: document.getElementById('printTeacherBtn'),
@@ -562,6 +563,7 @@ function renderLayout() {
   syncSettings();
 
   els.layout.innerHTML = '';
+  els.classroomDocument.classList.toggle('teacher-view', state.viewMode === 'teacher');
   els.layout.style.setProperty('--cols', state.cols);
   els.layout.classList.toggle('manual-mode', state.manualMode);
 
@@ -655,7 +657,7 @@ function resetClassroom() {
 function renderPreviewSheet(viewMode = state.viewMode) {
   const previewTarget = document.getElementById('pdfPreviewSheet');
   previewTarget.innerHTML = '';
-  previewTarget.className = 'pdf-preview-sheet';
+  previewTarget.className = `pdf-preview-sheet${viewMode === 'teacher' ? ' teacher-view' : ''}`;
 
   const previewHeader = document.createElement('header');
   previewHeader.className = 'doc-topbar';

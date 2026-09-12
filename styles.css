@@ -294,6 +294,11 @@ select {
   font-size: clamp(1rem, 1.5vw, 1.45rem);
 }
 
+.classroom-document.teacher-view .doc-topbar,
+.pdf-preview-sheet.teacher-view .doc-topbar {
+  transform: rotate(180deg);
+}
+
 .layout-grid {
   display: flex;
   flex-direction: column;
@@ -466,6 +471,10 @@ select {
 .teacher-desk span {
   display: block;
   text-align: center;
+}
+
+.teacher-view .teacher-desk span {
+  transform: rotate(180deg);
 }
 
 .ghost-btn.active,
@@ -685,12 +694,13 @@ select {
 @media print {
   @page {
     size: A4 landscape;
-    margin: 10mm;
+    margin: 6mm;
   }
 
   body {
     background: #fff;
     padding: 0;
+    width: 100%;
   }
 
   .no-print,
@@ -719,10 +729,15 @@ select {
     max-width: 100%;
     margin: 0 auto;
     box-shadow: none;
+    overflow: visible;
+  }
+
+  .doc-topbar {
+    margin-bottom: 10px;
   }
 
   .layout-grid {
-    gap: 10px;
+    gap: 7px;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
@@ -735,17 +750,21 @@ select {
   }
 
   .desk {
-    min-height: 100px;
+    min-height: 88px;
     break-inside: avoid;
-    padding-top: 16px;
+    padding-top: 13px;
   }
 
-  .desk.teacher-rotated {
+  .classroom-document.teacher-view .doc-topbar {
     transform: rotate(180deg);
   }
 
   .desk-name,
   .desk-surname {
     font-size: var(--student-name-size-print);
+  }
+
+  .teacher-view .teacher-desk span {
+    transform: rotate(180deg);
   }
 }
