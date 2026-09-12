@@ -128,5 +128,28 @@
     </div>
 
     <script src="script.js?v=20260911-2"></script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBwQlR6gHeMYesD9e16-aqwm_Q7lkqgUrM",
+    authDomain: "disposizione-banchi-0.firebaseapp.com",
+    projectId: "disposizione-banchi-0",
+    storageBucket: "disposizione-banchi-0.firebasestorage.app",
+    messagingSenderId: "413085092673",
+    appId: "1:413085092673:web:529e2d844b395d36ecafc0",
+    measurementId: "G-7Z8GH399SY"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
   </body>
 </html>
