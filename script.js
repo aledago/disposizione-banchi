@@ -13,6 +13,7 @@ const state = {
   className: '3A',
   mirroringCode: '',
   generatedAt: new Date(),
+  pointerDrag: null,
   teacherDesk: {
     row: -1,
     col: -1,
@@ -455,6 +456,48 @@ function handleDeskDrop(event, rowIndex, colIndex) {
   }
 }
 
+function startPointerDrag(event, type, rowIndex, colIndex, deskEl) {
+  if (!state.manualMode || event.pointerType === 'mouse' || event.button !== 0) {
+    return;
+  }
+
+  state.pointerDrag = {
+    pointerId: event.pointerId,
+    type,
+    row: rowIndex,
+    col: colIndex,
+    deskEl,
+  };
+  deskEl.classList.add('pointer-dragging');
+  deskEl.setPointerCapture(event.pointerId);
+  event.preventDefault();
+}
+
+function finishPointerDrag(event) {
+  const drag = state.pointerDrag;
+  if (!drag || drag.pointerId !== event.pointerId) {
+    return;
+  }
+
+  const target = document.elementFromPoint(event.clientX, event.clientY)
+    ?.closest('[data-row][data-col]');
+  drag.deskEl.classList.remove('pointer-dragging');
+  state.pointerDrag = null;
+
+  if (!target || !els.layout.contains(target)) {
+    return;
+  }
+
+  const rowIndex = Number(target.dataset.row);
+  const colIndex = Number(target.dataset.col);
+  if (drag.type === 'student' && target.classList.contains('desk') && !target.classList.contains('teacher-desk')) {
+    moveStudent({ row: drag.row, col: drag.col }, { row: rowIndex, col: colIndex });
+  }
+  if (drag.type === 'teacherDesk') {
+    moveTeacherDesk(rowIndex, colIndex);
+  }
+}
+
 function moveTeacherDesk(toRow, toCol) {
   const maxCol = Math.max(0, state.cols - state.teacherDesk.width);
   const safeRow = Math.min(state.rows - 1, Math.max(0, toRow));
@@ -485,6 +528,12 @@ function buildTeacherDeskCell(rowIndex, colIndex, isPreview = false) {
   deskEl.style.gridColumn = `span ${state.teacherDesk.width}`;
   deskEl.title = 'Cattedra';
   deskEl.draggable = !isPreview && !state.editMode;
+
+  if (!isPreview) {
+    deskEl.addEventListener('pointerdown', (event) => {
+      startPointerDrag(event, 'teacherDesk', rowIndex, colIndex, deskEl);
+    });
+  }
 
   const label = document.createElement('span');
   label.textContent = 'Cattedra';
@@ -529,6 +578,12 @@ function buildDeskCell(student, rowIndex, colIndex, isPreview = false) {
   deskEl.dataset.row = String(rowIndex);
   deskEl.dataset.col = String(colIndex);
   deskEl.draggable = Boolean(student) && !isPreview;
+
+  if (student && !isPreview) {
+    deskEl.addEventListener('pointerdown', (event) => {
+      startPointerDrag(event, 'student', rowIndex, colIndex, deskEl);
+    });
+  }
 
   if (!isPreview) {
     deskEl.addEventListener('dragover', (event) => event.preventDefault());
@@ -762,6 +817,15 @@ els.layout.addEventListener('click', (event) => {
 
   handleCellClick(Number(cell.dataset.row), Number(cell.dataset.col));
 });
+
+els.layout.addEventListener('pointermove', (event) => {
+  if (state.pointerDrag?.pointerId === event.pointerId) {
+    event.preventDefault();
+  }
+});
+
+els.layout.addEventListener('pointerup', finishPointerDrag);
+els.layout.addEventListener('pointercancel', finishPointerDrag);
 
 els.addStudentBtn.addEventListener('click', addStudent);
 els.importStudentsBtn.addEventListener('click', () => els.studentFileInput.click());

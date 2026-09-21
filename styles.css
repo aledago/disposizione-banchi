@@ -497,11 +497,22 @@ select {
 
 .layout-grid.manual-mode .desk {
   cursor: grab;
+  touch-action: none;
 }
 
 .layout-grid.manual-mode .desk:hover {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary-soft);
+}
+
+.layout-grid.manual-mode .teacher-desk {
+  cursor: grab;
+  touch-action: none;
+}
+
+.pointer-dragging {
+  opacity: 0.55;
+  cursor: grabbing !important;
 }
 
 .pdf-preview-modal {
