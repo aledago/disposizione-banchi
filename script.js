@@ -801,13 +801,32 @@ function closePreviewModal() {
   modal.setAttribute('aria-hidden', 'true');
 }
 
+function preparePrintLayout() {
+  const sheet = els.classroomDocument;
+  const topbar = sheet.querySelector('.doc-topbar');
+  if (!sheet || !topbar || !state.rows) {
+    return;
+  }
+
+  const availableHeight = sheet.clientHeight - topbar.offsetHeight - (state.rows - 1) * 7;
+  const rowHeight = Math.max(28, Math.floor((availableHeight / state.rows) * 0.82));
+  sheet.style.setProperty('--print-row-height', `${rowHeight}px`);
+}
+
 function setupPrint(viewMode) {
   state.viewMode = viewMode;
   els.teacherViewBtn.classList.toggle('active', viewMode === 'teacher');
   els.studentViewBtn.classList.toggle('active', viewMode === 'student');
   renderLayout();
-  window.print();
+  window.requestAnimationFrame(() => {
+    preparePrintLayout();
+    window.print();
+  });
 }
+
+window.addEventListener('afterprint', () => {
+  els.classroomDocument.style.removeProperty('--print-row-height');
+});
 
 els.layout.addEventListener('click', (event) => {
   const cell = event.target.closest('[data-row][data-col]');

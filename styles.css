@@ -771,7 +771,7 @@ select {
   }
 
   .layout-grid {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-height: 0;
     gap: 7px;
     width: 100%;
@@ -782,7 +782,7 @@ select {
   }
 
   .layout-row {
-    flex: 1 1 0;
+    flex: 0 0 var(--print-row-height, 28mm);
     min-height: 0;
     width: 100%;
     max-width: 100%;
@@ -792,7 +792,7 @@ select {
 
   .desk {
     min-height: 0;
-    height: 100%;
+    height: var(--print-row-height, 28mm);
     break-inside: avoid;
     padding-top: 13px;
   }
@@ -800,7 +800,7 @@ select {
   .floor-cell,
   .teacher-desk {
     min-height: 0;
-    height: 100%;
+    height: var(--print-row-height, 28mm);
   }
 
   .classroom-document.teacher-view .doc-topbar {
