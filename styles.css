@@ -717,23 +717,27 @@ select {
 @media print {
   @page {
     size: A4 landscape;
-    margin: 6mm;
+    margin: 8mm 7mm 6mm;
   }
 
   body {
     background: #fff;
     padding: 0;
     width: 100%;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .no-print,
-  .controls-panel {
+  .controls-panel,
+  .pdf-preview-modal {
     display: none !important;
   }
 
   .app-shell {
     display: block;
     max-width: none;
+    margin: 0;
   }
 
   .document-panel {
@@ -745,13 +749,12 @@ select {
   }
 
   .classroom-document {
-    height: 198mm;
-    max-height: 198mm;
+    height: auto;
     min-height: 0;
     border: none;
-    padding: 0;
-    width: calc(100% - 4mm);
-    max-width: calc(100% - 4mm);
+    padding: 0 2mm;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     box-shadow: none;
     overflow: visible;
@@ -762,18 +765,24 @@ select {
 
   .doc-topbar {
     flex: 0 0 auto;
-    margin-bottom: 7px;
-    padding-bottom: 7px;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    gap: 8px;
+    border-bottom: 1px solid #e9dfd4;
   }
 
   .doc-topbar > div {
     min-width: 0;
   }
 
+  .doc-topbar h3 {
+    font-size: 0.95rem;
+  }
+
   .layout-grid {
     flex: 0 0 auto;
     min-height: 0;
-    gap: 7px;
+    gap: 6px;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
@@ -786,33 +795,45 @@ select {
     min-height: 0;
     width: 100%;
     max-width: 100%;
+    gap: 6px;
     grid-template-rows: minmax(0, 1fr);
     break-inside: avoid;
   }
 
-  .desk {
-    min-height: 0;
-    height: var(--print-row-height, 28mm);
-    break-inside: avoid;
-    padding-top: 13px;
-  }
-
+  .desk,
   .floor-cell,
   .teacher-desk {
     min-height: 0;
     height: var(--print-row-height, 28mm);
+    border-radius: 10px;
+  }
+
+  .desk {
+    break-inside: avoid;
+    padding: 10px 7px 8px;
+  }
+
+  .student-info {
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .desk-name,
+  .desk-surname {
+    font-size: 0.8rem;
+    letter-spacing: 0.01em;
+  }
+
+  .teacher-desk {
+    padding: 8px;
   }
 
   .classroom-document.teacher-view .doc-topbar {
     transform: rotate(180deg);
   }
 
-  .desk-name,
-  .desk-surname {
-    font-size: var(--student-name-size-print);
-  }
-
   .teacher-view .teacher-desk span {
     transform: rotate(180deg);
   }
 }
+

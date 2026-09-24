@@ -41,6 +41,8 @@ const els = {
   classroomDocument: document.getElementById('classroomDocument'),
   teacherViewBtn: document.getElementById('teacherViewBtn'),
   studentViewBtn: document.getElementById('studentViewBtn'),
+  previewPdfBtn: document.getElementById('previewPdfBtn'),
+  downloadPdfBtn: document.getElementById('downloadPdfBtn'),
   printTeacherBtn: document.getElementById('printTeacherBtn'),
   printStudentBtn: document.getElementById('printStudentBtn'),
   classNamePrint: document.getElementById('classNamePrint'),
@@ -711,6 +713,11 @@ function resetClassroom() {
   state.editMode = false;
   state.placingTeacherDesk = false;
   state.manualMode = false;
+  state.teacherDesk = {
+    row: -1,
+    col: -1,
+    width: 2,
+  };
   state.generatedAt = new Date();
   syncSettings();
   els.studentList.innerHTML = '<li><span>Nessuno studente aggiunto</span></li>';
@@ -795,6 +802,57 @@ function openPreviewModal(viewMode = state.viewMode) {
   modal.setAttribute('aria-hidden', 'false');
 }
 
+async function downloadPdfFromPreview(viewMode = state.viewMode) {
+  if (!window.html2canvas || !window.jspdf) {
+    window.alert('Il download PDF non è disponibile in questo momento. Riprova più tardi.');
+    return;
+  }
+
+  state.viewMode = viewMode;
+  els.teacherViewBtn.classList.toggle('active', viewMode === 'teacher');
+  els.studentViewBtn.classList.toggle('active', viewMode === 'student');
+  renderLayout();
+  renderPreviewSheet(viewMode);
+
+  const preview = document.getElementById('pdfPreviewSheet');
+  if (!preview || !preview.innerHTML.trim()) {
+    return;
+  }
+
+  try {
+    const canvas = await window.html2canvas(preview, {
+      backgroundColor: '#ffffff',
+      scale: 2,
+      useCORS: true,
+      width: preview.scrollWidth,
+      height: preview.scrollHeight,
+      windowWidth: preview.scrollWidth,
+      windowHeight: preview.scrollHeight,
+    });
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'pt',
+      format: 'a4',
+    });
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const img = canvas.toDataURL('image/png');
+    const imgWidth = pdfWidth - 40;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const yPosition = (pdfHeight - imgHeight) / 2;
+
+    pdf.addImage(img, 'PNG', 20, yPosition, imgWidth, imgHeight, undefined, 'FAST');
+
+    const classSafeName = (state.className || 'classe').replace(/[^a-z0-9_-]+/gi, '_');
+    pdf.save(`${classSafeName}-${viewMode === 'teacher' ? 'cattedra' : 'studenti'}.pdf`);
+  } catch (error) {
+    window.alert('Non è stato possibile creare il PDF. Riprova.');
+  }
+}
+
 function closePreviewModal() {
   const modal = document.getElementById('pdfPreviewModal');
   modal.classList.add('hidden');
@@ -818,6 +876,7 @@ function setupPrint(viewMode) {
   els.teacherViewBtn.classList.toggle('active', viewMode === 'teacher');
   els.studentViewBtn.classList.toggle('active', viewMode === 'student');
   renderLayout();
+  document.body.classList.add('print-mode');
   window.requestAnimationFrame(() => {
     preparePrintLayout();
     window.print();
@@ -826,6 +885,7 @@ function setupPrint(viewMode) {
 
 window.addEventListener('afterprint', () => {
   els.classroomDocument.style.removeProperty('--print-row-height');
+  document.body.classList.remove('print-mode');
 });
 
 els.layout.addEventListener('click', (event) => {
@@ -969,11 +1029,11 @@ els.studentViewBtn.addEventListener('click', () => {
   els.teacherViewBtn.classList.remove('active');
   els.studentViewBtn.classList.add('active');
 });
-els.previewPdfBtn = document.getElementById('previewPdfBtn');
 els.closePreviewBtn = document.getElementById('closePreviewBtn');
 els.confirmPrintBtn = document.getElementById('confirmPrintBtn');
 
 els.previewPdfBtn.addEventListener('click', () => openPreviewModal(state.viewMode));
+els.downloadPdfBtn.addEventListener('click', () => downloadPdfFromPreview(state.viewMode));
 els.closePreviewBtn.addEventListener('click', closePreviewModal);
 els.confirmPrintBtn.addEventListener('click', () => {
   closePreviewModal();
